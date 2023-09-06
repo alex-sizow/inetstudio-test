@@ -10,7 +10,7 @@
 
 		<v-card-text class="white--text">
 			{{ new Date().getFullYear() }} —
-			<strong>Vuetify</strong>
+			<strong>FormKit</strong>
 		</v-card-text>
 	</v-card>
 </template>

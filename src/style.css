@@ -121,3 +121,13 @@ label {
 legend {
 	display: block;
 }
+
+body {
+	background: rgb(244, 235, 0);
+	background: linear-gradient(
+		140deg,
+		rgba(244, 235, 0, 1) 25%,
+		rgba(222, 115, 159, 1) 79%,
+		rgba(0, 231, 251, 1) 100%
+	);
+}

@@ -1,18 +1,16 @@
 <script setup>
 import ContentBlock from './components/ContentBlock.vue';
+import ContentFilter from './components/ContentFilter.vue';
 import Footer from './components/Footer.vue';
 </script>
 
 <template>
 	<div>
-		<v-main>
-			<ContentBlock />
-		</v-main>
-		<v-footer
-			app
-			v-bind="localAttrs">
-			<Footer />
-		</v-footer>
+		<ContentFilter />
+		<ContentBlock />
+
+		app v-bind="localAttrs">
+		<Footer />
 	</div>
 </template>
 

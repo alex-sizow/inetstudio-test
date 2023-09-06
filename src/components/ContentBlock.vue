@@ -1,124 +1,89 @@
 <script setup>
+import { storeToRefs } from 'pinia';
 import { ref } from 'vue';
 
-const items = ref(['russia', 'usa', '> 20', '< 10']);
+import { useListStore } from '@/stores/List';
+
+const store = useListStore();
+
+const { users, items } = storeToRefs(store);
+
+//const items = ref(['russia', 'usa', '> 20', '< 10']);
 
 const variants = ref('default');
-
-const users = ref([
-	{ header: 'List' },
-	{
-		avatar: 'https://cdn.vuetifyjs.com/images/lists/1.jpg',
-		title: 'Brunch this weekend?',
-		subtitle: `<span class="text--primary">Ali Connors</span> &mdash; I'll be in your neighborhood doing errands this weekend. Do you want to hang out?`,
-	},
-	{ divider: true, inset: true },
-	{
-		avatar: 'https://cdn.vuetifyjs.com/images/lists/2.jpg',
-		title:
-			'Summer BBQ <span class="grey--text text--lighten-1">4</span>',
-		subtitle: `<span class="text--primary">to Alex, Scott, Jennifer</span> &mdash; Wish I could come, but I'm out of town this weekend.`,
-	},
-	{ divider: true, inset: true },
-	{
-		avatar: 'https://cdn.vuetifyjs.com/images/lists/3.jpg',
-		title: 'Oui oui',
-		subtitle:
-			'<span class="text--primary">Sandra Adams</span> &mdash; Do you have Paris recommendations? Have you ever been?',
-	},
-	{ divider: true, inset: true },
-	{
-		avatar: 'https://cdn.vuetifyjs.com/images/lists/4.jpg',
-		title: 'Birthday gift',
-		subtitle:
-			'<span class="text--primary">Trevor Hansen</span> &mdash; Have any ideas about what we should get Heidi for her birthday?',
-	},
-	{ divider: true, inset: true },
-	{
-		avatar: 'https://cdn.vuetifyjs.com/images/lists/5.jpg',
-		title: 'Recipe to try',
-		subtitle:
-			'<span class="text--primary">Britta Holt</span> &mdash; We should eat this: Grate, Squash, Corn, and tomatillo Tacos.',
-	},
-]);
 </script>
 
 <template>
-	<v-container>
-		<v-row
-			align="center"
-			justify="center"
-			class="ma-4">
-			<v-col cols="12">
-				<v-img
-					:src="'../assets/logo.svg'"
-					class="my-3"
-					contain
-					height="200" />
-			</v-col>
+	<div class="list">
+		<div
+			class="list__item"
+			v-for="(user, index) in users"
+			:key="index">
+			<h3
+				class="list__item_header"
+				v-if="user.header">
+				{{ user.header }}
+			</h3>
 
-			<v-col
-				cols="12"
-				md="4">
-				<v-select
-					v-model="variant"
-					:items="items"
-					clearable
-					label="Filter by country"></v-select>
+			<v-divider
+				v-else-if="user.divider"
+				:key="index"
+				:inset="user.inset"></v-divider>
 
-				<v-select
-					v-model="variant"
-					:items="items"
-					clearable
-					label="Filter by score"></v-select>
-			</v-col>
-
-			<v-col
-				cols="12"
-				md="4">
-				<v-card
-					max-width="450"
-					class="mx-auto">
-					<v-list three-line>
-						<template
-							v-for="(item, index) in users"
-							class="list">
-							<v-subheader
-								v-if="item.header"
-								:key="item.header"
-								v-text="item.header"></v-subheader>
-
-							<v-divider
-								v-else-if="item.divider"
-								:key="index"
-								:inset="item.inset"></v-divider>
-
-							<v-list-item
-								v-else
-								:key="item.title">
-								<v-list-item-avatar>
-									<v-img :src="item.avatar"></v-img>
-								</v-list-item-avatar>
-
-								<v-list-item-content>
-									<v-list-item-title
-										v-html="item.title"></v-list-item-title>
-									<v-list-item-subtitle
-										v-html="
-											item.subtitle
-										"></v-list-item-subtitle>
-								</v-list-item-content>
-							</v-list-item>
-						</template>
-					</v-list>
-				</v-card>
-			</v-col>
-		</v-row>
-	</v-container>
+			<div
+				v-if="user.title"
+				class="list__item_person">
+				<img
+					class="item__image"
+					:src="user.avatar"
+					:alt="user.title" />
+				<span v-html="user.title"></span>
+				<span v-html="user.subtitle"></span>
+			</div>
+		</div>
+	</div>
 </template>
 
 <style lang="scss" scoped>
 .list {
 	display: flex;
+	gap: 25px;
+	flex-wrap: wrap;
+	justify-content: center;
+	width: 100%;
+	&__item {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		gap: 10px;
+
+		&_header {
+			font-size: 30px;
+			display: flex;
+			justify-content: center;
+			width: 100vw;
+		}
+
+		&_person {
+			max-width: 200px;
+			border-radius: 20px 20px 20px 20px;
+			display: flex;
+			flex-direction: column;
+			gap: 10px;
+			align-items: center;
+			font-size: 19px;
+			background: #fefdd7;
+			box-shadow: 3px 3px 7px #d5d29c, -3px -3px 7px #eae5cd;
+			img {
+				width: 100%;
+				border-radius: 20px 20px 0 0;
+			}
+
+			span {
+				padding: 10px;
+			}
+		}
+	}
 }
 </style>
