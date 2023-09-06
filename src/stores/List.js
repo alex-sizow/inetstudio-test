@@ -54,6 +54,29 @@ export const useListStore = defineStore('List', {
 			},
 		],
 
-		items: ['russia', 'usa', '> 20', '< 10'],
+		country: ['russia', 'usa'],
+		ages: ['> 20', '< 10'],
 	}),
+
+	getters: {
+		getUsersPerCountry: (state) => (country) => {
+			if (country === 'all') {
+				return state.users;
+			}
+			return state.users.filter(
+				(user) => user.country === country,
+			);
+		},
+		getUsersPerAge: (state) => (age) => {
+			if (age == 'all') {
+				return state.users;
+			}
+			return state.users.filter((user) => {
+				const number = parseInt(user.match(/\d+/)[0]);
+				return user.age.includes('<')
+					? age < number
+					: age > number;
+			});
+		},
+	},
 });

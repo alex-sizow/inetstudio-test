@@ -1,14 +1,9 @@
 <script setup>
-import { storeToRefs } from 'pinia';
-import { ref } from 'vue';
+import { defineProps, ref } from 'vue';
 
-import { useListStore } from '@/stores/List';
-
-const store = useListStore();
-
-const { users, items } = storeToRefs(store);
-
-//const items = ref(['russia', 'usa', '> 20', '< 10']);
+const props = defineProps({
+	users: { type: Array, required: true },
+});
 
 const variants = ref('default');
 </script>
