@@ -59,12 +59,12 @@ export const useListStore = defineStore('List', {
 	}),
 
 	getters: {
-		getUsersPerCountry: (state) => (country) => {
-			if (country === 'all') {
+		getUsersPerCountry: (state) => (param) => {
+			if (param === 'all') {
 				return state.users;
 			}
 			return state.users.filter(
-				(user) => user.country === country,
+				(user) => user.country === param,
 			);
 		},
 		getUsersPerAge: (state) => (age) => {
