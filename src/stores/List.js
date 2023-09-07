@@ -59,24 +59,39 @@ export const useListStore = defineStore('List', {
 	}),
 
 	getters: {
-		getUsersPerCountry: (state) => (param) => {
-			if (param === 'all') {
-				return state.users;
-			}
-			return state.users.filter(
-				(user) => user.country === param,
-			);
-		},
-		getUsersPerAge: (state) => (age) => {
-			if (age == 'all') {
-				return state.users;
-			}
-			return state.users.filter((user) => {
-				const number = parseInt(user.match(/\d+/)[0]);
-				return user.age.includes('<')
-					? age < number
-					: age > number;
-			});
-		},
+		getUsersPerCountry:
+			(state) =>
+			(param = 'all') => {
+				if (param === 'all') {
+					return state.users;
+				}
+				return state.users.filter(
+					(user) => user.country === param,
+				);
+			},
+		getUsersPerAge:
+			(state) =>
+			(age = 'all', country = 'all') => {
+				let st = state.users;
+
+				if (country === 'all') {
+					st = st;
+				} else {
+					st = st.filter((user) => user.country === country);
+				}
+				console.log(st);
+				if (age === 'all') {
+					st = st;
+				} else {
+					st = st.filter((user) => {
+						const number = parseInt(age.match(/\d+/)[0]);
+
+						return age.includes('<')
+							? user.age < number
+							: user.age > number;
+					});
+				}
+				return st;
+			},
 	},
 });

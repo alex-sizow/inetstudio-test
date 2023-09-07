@@ -12,8 +12,13 @@ const { users, country, ages } = storeToRefs(store);
 
 const selectedCountry = ref('all');
 
+const selectedAge = ref('all');
+
 const list = computed(() =>
-	store.getUsersPerCountry(selectedCountry.value),
+	store.getUsersPerAge(
+		selectedAge.value,
+		selectedCountry.value,
+	),
 );
 </script>
 
@@ -23,9 +28,12 @@ const list = computed(() =>
 			:params="country"
 			:ages="ages"
 			v-model:value="selectedCountry" />
+		<ContentFilter
+			:params="ages"
+			:ages="ages"
+			v-model:value="selectedAge" />
 		<ContentBlock :users="list" />
 
-		app v-bind="localAttrs">
 		<Footer />
 	</div>
 </template>
